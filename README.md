@@ -1,14 +1,12 @@
 # Project
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+> This repo is where we are tracking our work in progress for the Synapse Health Assessment. 
+> If you want to see our latest releast, please view the 'releases' 
 
-As the maintainer of this project, please make a few updates:
+Folders and files
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+- AssessmentList.xlsx: List of all of the tests we plan to run and the current development status
+- SQL_Scripts: Folder to hold all sql scripts that back up certain tests. AssessmentList.xlsx will link to these locations
 
 ## Contributing
 
