@@ -8,6 +8,9 @@ Folders and files
 - AssessmentList.xlsx: List of all of the tests we plan to run and the current development status
 - SQL_Scripts: Folder to hold all sql scripts that back up certain tests. AssessmentList.xlsx will link to these locations
 
+## Game Plan
+
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
