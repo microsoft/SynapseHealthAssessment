@@ -1,0 +1,15 @@
+select object_id, column_id, count(*) as statistics_count
+from 
+(
+select allStats.object_id, allStats.stats_id, allStats.stats_column_id, allStats.column_id from sys.stats_columns allStats join
+(
+select [object_id], [stats_id], count(*) as count
+from sys.stats_columns 
+where stats_id > 1 
+group by object_id, stats_id 
+having count(*) = 1
+) as singleColumnStats
+on allStats.object_id = singleColumnStats.object_id and allStats.stats_id = singleColumnStats.stats_id
+) as singleColumnStatsAllCols
+group by object_id, column_id
+having count(*) > 1

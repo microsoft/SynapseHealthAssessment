@@ -1,0 +1,58 @@
+create table #tmpSingleColumnStatsAllCols
+(
+object_id int,
+stats_id int,
+stats_column_id int,
+column_id int
+)
+insert into #tmpSingleColumnStatsAllCols select * from 
+(
+select allStats.object_id, allStats.stats_id, allStats.stats_column_id, allStats.column_id from sys.stats_columns allStats join
+(
+select [object_id], [stats_id], count(*) as count
+from sys.stats_columns 
+where stats_id > 1 
+group by object_id, stats_id 
+having count(*) = 1
+) as singleColumnStats
+on allStats.object_id = singleColumnStats.object_id and allStats.stats_id = singleColumnStats.stats_id
+) as tmpSingleColumnStatsAllCols
+ 
+select systables.object_id, name as table_name, column_id, stats_id, stats_name
+from
+sys.tables systables
+join
+(
+select sysstats.object_id, column_id, name as stats_name, sysstats.stats_id 
+from
+sys.stats as sysstats
+join
+(
+select #tmpSingleColumnStatsAllCols.object_id, #tmpSingleColumnStatsAllCols.column_id, stats_id 
+from
+#tmpSingleColumnStatsAllCols
+join
+(
+select object_id, column_id, count(*) as count
+from 
+#tmpSingleColumnStatsAllCols
+group by object_id, column_id
+having count(*) > 1
+) as singleColumnStatsDupCount
+on #tmpSingleColumnStatsAllCols.object_id = singleColumnStatsDupCount.object_id and #tmpSingleColumnStatsAllCols.column_id = singleColumnStatsDupCount.column_id 
+) as duplicateStatsIds
+on sysstats.object_id = duplicateStatsIds.object_id and sysstats.stats_id = duplicateStatsIds.stats_id
+) as duplicateStatsNames
+on systables.object_id = duplicateStatsNames.object_id
+order by object_id, column_id, stats_id
+ 
+drop table #tmpSingleColumnStatsAllCols
+
+Notes:
+We show all the duplicate statistics. Not ALL statistics for each <table, column> pair should be dropped. 
+FUTURE WORK : generate a script that just goes and drops duplicate statistics.
+ 
+Insights:
+This shows us all of the duplicate statistics. All but one of the statistics for a given <table, column> pair should be dropped.
+ 
+
