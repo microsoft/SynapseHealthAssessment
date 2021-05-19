@@ -1,4 +1,14 @@
-﻿-- This query captures the metadata for the subsequent CCI health queries.
+﻿/*
+	=================================
+	   CCI Meta Data table
+	=================================
+	This query captures the metadata for the subsequent CCI health queries.
+	This query can be quite expensive, running a single time reduces the load on the system, but does provide a snapshot view of
+        the data, rather than a real-time view.
+
+*/
+IF OBJECT_ID('CCI_MetaData') IS NOT NULL DROP TABLE CCI_MetaData
+GO
 
 CREATE TABLE CCI_MetaData 
 WITH (HEAP, DISTRIBUTION = ROUND_ROBIN)
@@ -33,3 +43,4 @@ INNER JOIN sys.pdw_table_distribution_properties tdp
 INNER JOIN sys.indexes i
 		on t.object_id = i.object_id
 WHERE i.[type] = 5		-- CCI indexes only
+
