@@ -6,6 +6,7 @@
 Folders and files
 
 - AssessmentList.xlsx: List of all of the tests we plan to run and the current development status
+- Synapse Health Check.Delivery Instructions.docs. This is the overall delivery instructions. As you author or modify scripts, add the documentation in here. Copy the existing formatting (e.g. the CCI section) in order to maintain the TOC format.
 - SQL_Scripts: Folder to hold all sql scripts that back up certain tests. AssessmentList.xlsx will link to these locations
 
 ## Game Plan
