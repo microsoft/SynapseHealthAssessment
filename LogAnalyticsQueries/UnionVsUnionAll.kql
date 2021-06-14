@@ -1,5 +1,5 @@
 //Usage of Union vs Union ALL
-let databaseName='LASRIM-SQLDWDB-PRD';
+let databaseName='<DATABASE_NAME>';
 AzureDiagnostics 
 | where Category  == 'ExecRequests'
 | where Resource  == databaseName
